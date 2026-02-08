@@ -1,0 +1,20 @@
+services:
+  backend:
+    image: backend
+    build:
+      context: ./
+    env_file:
+      - .env
+    environment:
+      MONGODB_URI: ${MONGODB_URI}
+      PORT: ${PORT}
+      JWT_SECRET: ${JWT_SECRET}
+    ports:
+      - "8000:8000"
+    volumes:
+      - resources:/app/static
+    restart: unless-stopped
+
+volumes:
+  resources:
+    driver: local
