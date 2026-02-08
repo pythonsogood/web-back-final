@@ -1,0 +1,1 @@
+{"root":["./src/index.ts","./src/config/auth.ts","./src/config/db.ts","./src/controllers/resource.ts","./src/controllers/user.ts","./src/middleware/auth.ts","./src/middleware/validation.ts","./src/models/song.ts","./src/models/user.ts","./src/routers/auth.ts","./src/routers/resource.ts","./src/routers/user.ts"],"version":"5.9.3"}

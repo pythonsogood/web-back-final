@@ -1,0 +1,12 @@
+{
+	"compilerOptions": {
+		"module": "node20",
+		"sourceMap": false,
+		"removeComments": false,
+		"rootDir": "./src",
+		"strict": true,
+		"outDir": "./dist"
+	},
+	"include": ["src/**/*"],
+	"exclude": ["node_modules", "**/*.spec.ts", "src/public"]
+}
