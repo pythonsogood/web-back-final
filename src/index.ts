@@ -1,5 +1,4 @@
 import path from "node:path";
-import "dotenv/config";
 import express, { NextFunction, Request, Response } from "express";
 import cookieParser from "cookie-parser";
 import fileUpload from "express-fileupload";
@@ -45,7 +44,7 @@ app.use(async (err: Error, req: Request, res: Response, next: NextFunction): Pro
 	await res.status(res.statusCode >= 400 && res.statusCode < 600 ? res.statusCode : 500).json({"message": err.message});
 });
 
-app.listen(APP_PORT, async () => {
+app.listen(APP_PORT, "0.0.0.0", async () => {
 	await db.configure();
 
 	console.log(`Server is running on port ${APP_PORT}`);
