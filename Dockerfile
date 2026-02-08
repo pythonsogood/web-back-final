@@ -1,19 +1,24 @@
-FROM node:25-slim AS base
-
+# deps
+FROM node:25-slim AS deps
 RUN npm install -g pnpm
-
-COPY . /app
 WORKDIR /app
 
-FROM base AS prod-deps
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --prod --frozen-lockfile
+COPY package.json pnpm-lock.yaml ./
+RUN pnpm install --frozen-lockfile
 
-FROM base AS build
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
+# build
+FROM deps AS build
+COPY . .
 RUN pnpm run build
+RUN pnpm prune --prod
 
-FROM base
-COPY --from=prod-deps /app/node_modules /app/node_modules
-COPY --from=build /app/dist /app/dist
-EXPOSE 8000
-CMD [ "pnpm", "start" ]
+# runtime
+FROM gcr.io/distroless/nodejs24-debian13
+
+WORKDIR /app
+ENV NODE_ENV=production
+
+COPY --from=build /app/dist ./dist
+COPY --from=build /app/node_modules ./node_modules
+
+CMD [ "dist", "index.js" ]
